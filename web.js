@@ -45,7 +45,7 @@ app.post('/giphy', function(request, response) {
                 to: fromNumber,
                 from: twilioNumber,
                 mediaUrl: mediaUrl,
-                body: "Here's your GIF for " + query + ":"
+                body: "Here's your GIF for " + query + ""
             }, function(err, message) {
                 console.log(message);
                 response.send(message);

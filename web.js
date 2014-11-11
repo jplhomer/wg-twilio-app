@@ -41,19 +41,10 @@ app.post('/giphy', function(request, response) {
         if ( giphy.data.length ) {
             var mediaUrl = giphy.data[0].images.downsized.url;
 
-            // client.messages.create({
-            //     to: fromNumber,
-            //     from: twilioNumber,
-            //     mediaUrl: mediaUrl,
-            //     body: "Here's your GIF for " + query + ":"
-            // }, function(err, message) {
-            //     console.log(message);
-            //     response.send(message);
-            // });
-            client.sendMessage({
+            client.messages.create({
                 to: fromNumber,
                 from: twilioNumber,
-                // mediaUrl: mediaUrl,
+                mediaUrl: mediaUrl,
                 body: "Here's your GIF for " + query + ":"
             }, function(err, message) {
                 console.log(message);

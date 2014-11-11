@@ -29,6 +29,19 @@ app.post('/reddit', function(request, response) {
     });
 });
 
+// When the Giphy endpoint is POSTed, return the first GIF
+app.post('/giphy', function(request, response) {
+    console.log(request.body);
+    // restler.get('http://reddit.com/.json').on('complete', function(reddit) {
+    //     var titles = "<Response><Sms>Top Five Reddit Posts:</Sms> ";
+    //     for(var i=0; i<5; i++) {
+    //         titles += "<Sms> • “" + reddit.data.children[i].data.title + "” (http://reddit.com" + reddit.data.children[i].data.permalink + ") </Sms>";
+    //     }
+    //     titles += "</Response>";
+    //     response.send(titles);
+    // });
+});
+
 // When the form is submitted, send the message to the person listed
 app.post('/', function(request, response) {
     var numbers = {

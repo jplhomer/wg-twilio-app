@@ -11,6 +11,8 @@ var express = require('express');
 var app = express();
 var restler = require('restler');
 var bodyParser = require('body-parser');
+var giphyKey = 'dc6zaTOxFJmzC';
+var twilioNumber = '+15155325531';
 
 app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
@@ -31,15 +33,23 @@ app.post('/reddit', function(request, response) {
 
 // When the Giphy endpoint is POSTed, return the first GIF
 app.post('/giphy', function(request, response) {
-    console.log(request.body);
-    // restler.get('http://reddit.com/.json').on('complete', function(reddit) {
-    //     var titles = "<Response><Sms>Top Five Reddit Posts:</Sms> ";
-    //     for(var i=0; i<5; i++) {
-    //         titles += "<Sms> • “" + reddit.data.children[i].data.title + "” (http://reddit.com" + reddit.data.children[i].data.permalink + ") </Sms>";
-    //     }
-    //     titles += "</Response>";
-    //     response.send(titles);
-    // });
+    var query = request.body.Body;
+    var encodedQuery = encodeURIComponent( query );
+    var fromNumber = request.body.From;
+
+    restler.get('http://api.giphy.com/v1/gifs/search?q=' + encodedQuery + '&api_key=' + giphyKey).on('complete', function(giphy) {
+        var mediaUrl = giphy.data[0].images.downsized.url;
+
+        client.messages.create({
+            to: fromNumber,
+            from: twilioNumber,
+            mediaUrl: mediaUrl,
+            body: "Here's your GIF for " + query + ":"
+        }, function(err, message) {
+            console.log(message);
+            response.send(message);
+        });
+    });
 });
 
 // When the form is submitted, send the message to the person listed
